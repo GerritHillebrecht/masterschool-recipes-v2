@@ -1,4 +1,8 @@
-import { Recipe, PartialRecipe } from "./models/recipe.model.js";
+/* I would us zod to validate inputs, but zod throws this weird bug on the codio plattform,
+where the js file is not accepted as application/javascript, so I can't use the import statement.
+Took me forever to find it's zod + codio. "Totally works on my machine" */
+
+// import { Recipe, PartialRecipe } from "./models/recipe.model.js";
 import { API_ENDPOINT } from "./config.js";
 
 export async function fetchRecipes() {
@@ -34,11 +38,11 @@ export async function fetchRecipeById(recipeId) {
 
 export async function addRecipe(recipe) {
   try {
-    const result = Recipe.safeParse(recipe);
+    // const result = Recipe.safeParse(recipe);
 
-    if (!result.success) {
-      throw new Error("Your recipe is invalid");
-    }
+    // if (!result.success) {
+    //   throw new Error("Your recipe is invalid");
+    // }
 
     const response = await fetch(`${API_ENDPOINT()}/recipes`, {
       method: "POST",
@@ -80,12 +84,12 @@ export async function deleteRecipe(recipeId) {
 
 export async function updateRecipe(recipe, recipeId) {
   try {
-    const result = PartialRecipe.safeParse(recipe);
+    // const result = PartialRecipe.safeParse(recipe);
 
-    if (!result.success) {
-      console.log(recipe);
-      throw new Error("Your recipe is invalid");
-    }
+    // if (!result.success) {
+    //   console.log(recipe);
+    //   throw new Error("Your recipe is invalid");
+    // }
 
     const response = await fetch(`${API_ENDPOINT()}/recipes/${recipeId}`, {
       method: "PUT",

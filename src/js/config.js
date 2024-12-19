@@ -9,7 +9,7 @@ export const API_ENDPOINT = () => {
     return savedUrl;
   }
 
-  const newUrl = prompt("Please enter the API endpoint URL:");
+  const newUrl = prompt("Please enter the API endpoint URL (No trailing backslash):");
   localStorage.setItem("apiUrl", newUrl);
   return newUrl;
 };
