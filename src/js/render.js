@@ -7,10 +7,31 @@ export function renderRecipes(recipes, target) {
   target.innerHTML = "";
 
   if (recipes.length === 0) {
-    target.innerHTML = `<div class="w-full lg:col-span-2 flex justify-center items-center flex-col">
-    <img src="./img/not-found.svg" alt="No recipes found" class="w-[40%] mb-2" />
-    <p class="text-4xl">No recipes found</p>
-    </div>`;
+    const container = document.createElement("div");
+    container.classList.add(
+      "w-full",
+      "lg:col-span-2",
+      "flex",
+      "justify-center",
+      "items-center",
+      "flex-col"
+    );
+
+    const img = document.createElement("img");
+    img.src = "./img/not-found.svg";
+    img.alt = "No recipes found";
+    img.classList.add("w-[40%]", "mb-2");
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "No recipes found";
+    paragraph.classList.add("text-4xl");
+
+    container.appendChild(img);
+    container.appendChild(paragraph);
+
+    target.innerHTML = "";
+    target.appendChild(container);
+
     return;
   }
 

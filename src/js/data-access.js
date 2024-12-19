@@ -3,9 +3,10 @@ import { API_ENDPOINT } from "./config.js";
 
 export async function fetchRecipes() {
   try {
-    const response = await fetch(`${API_ENDPOINT}/recipes`);
+    const response = await fetch(`${API_ENDPOINT()}/recipes`);
 
     if (!response.ok) {
+      localStorage.removeItem("apiUrl");
       throw new Error("Failed to fetch recipes");
     }
 
@@ -18,7 +19,7 @@ export async function fetchRecipes() {
 
 export async function fetchRecipeById(recipeId) {
   try {
-    const response = await fetch(`${API_ENDPOINT}/recipes/${recipeId}`);
+    const response = await fetch(`${API_ENDPOINT()}/recipes/${recipeId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch recipe");
@@ -39,7 +40,7 @@ export async function addRecipe(recipe) {
       throw new Error("Your recipe is invalid");
     }
 
-    const response = await fetch(`${API_ENDPOINT}/recipes`, {
+    const response = await fetch(`${API_ENDPOINT()}/recipes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +63,7 @@ export async function addRecipe(recipe) {
 
 export async function deleteRecipe(recipeId) {
   try {
-    const response = await fetch(`${API_ENDPOINT}/recipes/${recipeId}`, {
+    const response = await fetch(`${API_ENDPOINT()}/recipes/${recipeId}`, {
       method: "DELETE",
     });
 
@@ -86,7 +87,7 @@ export async function updateRecipe(recipe, recipeId) {
       throw new Error("Your recipe is invalid");
     }
 
-    const response = await fetch(`${API_ENDPOINT}/recipes/${recipeId}`, {
+    const response = await fetch(`${API_ENDPOINT()}/recipes/${recipeId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +108,7 @@ export async function updateRecipe(recipe, recipeId) {
 
 export async function fetchRecipesBySearch(searchTerm) {
   try {
-    const response = await fetch(`${API_ENDPOINT}/search?q=${searchTerm}`);
+    const response = await fetch(`${API_ENDPOINT()}/search?q=${searchTerm}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch recipes");

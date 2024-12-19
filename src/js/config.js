@@ -3,4 +3,13 @@ export const routes = [
   { label: "Calendar", path: "./src/calendar.html" },
 ];
 
-export const API_ENDPOINT = "http://localhost:8000";
+export const API_ENDPOINT = () => {
+  const savedUrl = localStorage.getItem("apiUrl");
+  if (savedUrl) {
+    return savedUrl;
+  }
+
+  const newUrl = prompt("Please enter the API endpoint URL:");
+  localStorage.setItem("apiUrl", newUrl);
+  return newUrl;
+};
