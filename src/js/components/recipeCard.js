@@ -114,7 +114,7 @@ export function RecipeCard(recipe) {
 
   const ingredientsList = document.createElement("ul");
   ingredientsList.classList.add("list-disc", "list-inside", "mb-4");
-  ingredients.splice(0, 3).forEach((ingredient) => {
+  [...ingredients].splice(0, 3).forEach((ingredient) => {
     const li = document.createElement("li");
     li.classList.add("text-sm");
     li.textContent = ingredient;
@@ -135,7 +135,7 @@ export function RecipeCard(recipe) {
 
   const instructionsList = document.createElement("ol");
   instructionsList.classList.add("list-decimal", "list-inside");
-  instructions.splice(0, 3).forEach((instruction) => {
+  [...instructions].splice(0, 3).forEach((instruction) => {
     const li = document.createElement("li");
     li.classList.add("text-sm");
     li.textContent = instruction;

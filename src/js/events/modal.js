@@ -62,7 +62,6 @@ function setRecipeValues(
   recipeIndex
 ) {
   const dateObj = new Date(date);
-  console.log(dateObj);
 
   const year = dateObj.getFullYear();
   const month = String(dateObj.getMonth() + 1).padStart(2, "0");
@@ -76,7 +75,7 @@ function setRecipeValues(
 
   updateRecipeForm.recipeName.value = name;
   updateRecipeForm.recipeIngredients.value = ingredients.join(", ");
-  updateRecipeForm.recipeInstructions.value = instructions.join(". ");
+  updateRecipeForm.recipeInstructions.value = instructions. join(". ");
   updateRecipeForm.recipeImage.value = image;
   updateRecipeForm.recipeDate.value = dateValue;
   updateRecipeForm.recipeTime.value = timeValue;
