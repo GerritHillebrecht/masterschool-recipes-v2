@@ -90,7 +90,7 @@ def get_events(start: str = None, end: str = None):
     return [
         { "title": recipe["name"], "start": recipe["date"], "url": f'./recipe.html?r={recipe["id"]}' }
         for recipe in load_recipes()
-        if start_date <= datetime.fromisoformat(recipe['date']) <= end_date
+        if start_date <= datetime.fromisoformat(recipe['date'].replace('Z', '+00:00')) <= end_date
     ]
     
 
