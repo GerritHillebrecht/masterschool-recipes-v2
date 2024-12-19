@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipes</title>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="./css/output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./js/app.js" defer type="module"></script>
+  </head>
+  <body>
+    <main class="py-4">
+      <div class="pb-4">
+        <form
+          class="relative pointer-events-auto max-w-md mx-auto w-full rounded-full bg-blue-500/20 shadow backdrop-blur backdrop-saturate p-1"
+        >
+          <label
+            for="default-search"
+            class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+            >Search</label
+          >
+          <div class="relative">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="autocomplete-search"
+              class="rounded-full block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 bg-white/80 focus-visible:outline-none focus:ring-neutral-500/40 focus:border-neutral-500/40 dark:bg-gray-700/80 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-neutral-500/40 dark:focus:border-neutral-500/40"
+              placeholder="Search Recipes..."
+              required
+            />
+            <button
+              type="submit"
+              class="text-white absolute end-2.5 bottom-2.5 bg-primary-700/80 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 mr-1 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-[1fr,2fr] gap-4"
+      >
+        <aside></aside>
+        <article>
+          <div
+            id="recipeGrid"
+            class="grid lg:grid-cols-2 gap-4 min-h-full"
+          ></div>
+        </article>
+      </div>
+    </main>
+    <!-- Modal Dialog -->
+    <div
+      id="recipe-update-modal-backdrop"
+      class="relative z-40 hidden"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <!--
+        Background backdrop, show/hide based on modal state.
+    
+        Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+        Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+      -->
+      <div
+        class="fixed inset-0 bg-gray-500/75 transition-opacity"
+        aria-hidden="true"
+      ></div>
+
+      <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div
+          class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+        >
+          <!--
+            Modal panel, show/hide based on modal state.
+    
+            Entering: "ease-out duration-300"
+              From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              To: "opacity-100 translate-y-0 sm:scale-100"
+            Leaving: "ease-in duration-200"
+              From: "opacity-100 translate-y-0 sm:scale-100"
+              To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          -->
+          <div
+            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+          >
+            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                <div
+                  class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 sm:mx-0 sm:size-10"
+                >
+                  <svg
+                    class="w-6 h-6 text-white dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                </div>
+                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <h3
+                    class="text-base font-semibold text-gray-900 leading-none"
+                    id="modal-title"
+                  >
+                    Update the recipe
+                  </h3>
+                  <div class="mt-1">
+                    <p class="text-sm text-gray-500">
+                      Edit the recipe.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal body -->
+            <div class="px-4">
+              <form name="updateRecipeForm">
+                <!-- Recipe Name -->
+                <div class="mt-4">
+                  <label
+                    for="price"
+                    class="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Recipe Name
+                  </label>
+                  <div class="mt-2">
+                    <div
+                      class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+                    >
+                      <input
+                        type="text"
+                        name="recipeName"
+                        id="recipeName"
+                        class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        placeholder="Recipe Name"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="mt-4">
+                  <label
+                    for="price"
+                    class="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Ingredients
+                  </label>
+                  <div class="mt-2">
+                    <div
+                      class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+                    >
+                      <input
+                        type="text"
+                        name="recipeIngredients"
+                        id="recipeIngredients"
+                        class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        placeholder="Ingredients"
+                        required
+                      />
+                    </div>
+                    <p class="hint text-xs opacity-45 mt-1">
+                      Separate each ingredient with a comma
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Procedure -->
+                <div class="mt-4">
+                  <label
+                    for="price"
+                    class="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Steps for preparation
+                  </label>
+                  <div class="mt-2">
+                    <div
+                      class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+                    >
+                      <textarea
+                        type="text"
+                        name="recipeInstructions"
+                        id="recipeInstructions"
+                        class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        placeholder="Steps for preparation"
+                        required
+                      ></textarea>
+                    </div>
+                    <p class="hint text-xs opacity-45 mt-1">
+                      Each sentence gets it's own instruction line.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="mt-4">
+                  <label for="recipeInstructions" class="block text-sm/6 font-medium text-gray-900">
+                    When do you want to make this recipe?
+                  </label>
+                  <div class="mt-2 grid grid-cols-2 gap-2">
+                    <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                      <input type="date" name="recipeDate" id="recipeDate" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Steps for preparation" required></textarea>
+                    </div>
+                    <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                      <input type="time" name="recipeTime" id="recipeTime" min="" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Steps for preparation" required></textarea>
+                    </div>
+                    <p class="hint col-span-2 text-xs opacity-45 mt-1">
+                      Please choose a date to prepare this meal.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Image URL -->
+                <div class="mt-4">
+                  <label
+                    for="price"
+                    class="block text-sm/6 font-medium text-gray-900"
+                  >
+                    Image URL
+                  </label>
+                  <div class="mt-2">
+                    <div
+                      class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600"
+                    >
+                      <input
+                        type="url"
+                        name="recipeImage"
+                        id="recipeImage"
+                        class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        placeholder="Image Url"
+                        required
+                      />
+                    </div>
+                    <p class="hint text-xs opacity-45 mt-1">
+                      Provide a URL to an image of the recipe. Self-hosting is
+                      currently not supported.
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="bg-gray-50 px-4 py-3 mt-4 border-t sm:flex sm:flex-row-reverse sm:px-6"
+            >
+              <button
+                type="button"
+                class="update inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-200 sm:ml-3 sm:w-auto"
+              >
+                Update Recipe
+              </button>
+              <button
+                type="button"
+                class="cancel mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
